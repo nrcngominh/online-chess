@@ -1,15 +1,19 @@
+// Create a random string that matches ^[a-zA-Z0-9]{8}$
 const createGameUrl = () => {
-  // Create a random string that matches ^[a-zA-Z0-9]{8}$
-  let string = "";
-  const characters =
-    "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
+  const ascii = { a: "a".charCodeAt(0), z: "z".charCodeAt(0) };
+  const numOfLetters = ascii.z - ascii.a + 1;
+  const lowercases = [...Array(numOfLetters).keys()].map((i) =>
+    String.fromCharCode(i + ascii.a)
+  );
 
-  for (let i = 0; i < 8; i++) {
-    const index = Math.floor(Math.random() * characters.length);
-    const char = characters.charAt(index);
-    string += characters.charAt(index);
-  }
-  return string;
+  const uppercases = lowercases.map((lower) => lower.toUpperCase());
+  const digits = [...Array(10).keys()].map((digit) => digit.toString());
+  const allChars = [...lowercases, ...uppercases, ...digits];
+
+  return [...Array(8).keys()].reduce((acc, cur) => {
+    const randomIndex = Math.floor(Math.random() * allChars.length);
+    return acc + allChars[randomIndex];
+  }, "");
 };
 
 module.exports = {
